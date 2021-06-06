@@ -1,0 +1,91 @@
+package matrix
+
+import "fmt"
+
+func New(v ...[]float64) *Matrix{
+	m := Matrix{}
+	m.Set(v)
+	return &m
+}
+
+func File(src string) *Matrix{
+	// TODO
+	return nil
+}
+
+type Matrix struct {
+	M [][]float64
+	H int64
+	W int64
+}
+
+func (m *Matrix) Print() {
+	for i := 0; i< len((*m).M); i++ {
+		fmt.Print("[ ")
+		for j := 0; j < len((*m).M[i]); j++ {
+			if j != 0 {
+				fmt.Print(" ")
+			}
+			fmt.Print((*m).M[i][j])
+		}
+		fmt.Print(" ]")
+		fmt.Println()
+	}
+	fmt.Println((*m).H,"x",(*m).W)
+}
+
+func (m *Matrix) Set(v [][]float64) {
+	m.H = int64(len(v))
+	for i := 0; i < len(v); i++ {
+		if i == 0 {
+			m.W = int64(len(v[i]))
+		}else{
+			if m.W != int64(len(v[i])) {
+				panic("Error in matrix size")
+			}
+		}
+	}
+	m.M = v
+}
+
+func (m *Matrix) Sum(v *Matrix) *Matrix{
+
+	if (*m).H != (*v).H || (*m).W != (*v).W {
+		panic("Error in matrix size")
+	}
+
+	var msum [][]float64
+
+	for i := 0; i< len((*m).M); i++ {
+		vec := (*m).M[i]
+		for j := 0; j < len((*m).M[i]); j++ {
+			vec[j] = vec[j] + (*v).M[i][j]
+		}
+		msum = append(msum, vec)
+	}
+
+	return New(msum...)
+}
+
+func (m *Matrix) Dot(v *Matrix) *Matrix{
+
+	if (*m).W != (*v).H {
+		panic("Error in matrix size")
+	}
+	var matrix [][]float64
+	for i := 0; i< len((*m).M); i++ {
+		var vec []float64
+		for k := 0; k < len((*v).M[i]); k++ {
+			l := 0
+			var sum float64
+			for j := 0; j < len((*m).M[i]); j++ {
+				sum =  sum + ((*m).M[i][j] * (*v).M[l][k])
+				//fmt.Println((*m).M[i][j], "*", (*v).M[l][k], "=", sum)
+				l++
+			}
+			vec = append(vec, sum)
+		}
+		matrix = append(matrix, vec)
+	}
+	return New(matrix...)
+}
