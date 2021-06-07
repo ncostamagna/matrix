@@ -1,6 +1,9 @@
 package matrix
 
-import "fmt"
+import (
+	"fmt"
+	"math"
+)
 
 func New(v ...[]float64) *Matrix{
 	m := Matrix{}
@@ -8,7 +11,29 @@ func New(v ...[]float64) *Matrix{
 	return &m
 }
 
-func File(src string) *Matrix{
+func One(h, w int) *Matrix{
+	return make(h,w,1)
+}
+
+func Null(h, w int) *Matrix{
+	return make(h,w,0)
+}
+
+func make(h, w int, value float64) *Matrix{
+	var matrix [][]float64
+	for i := 0; i < h; i++ {
+		var vec []float64
+		for j := 0; j < w; j++ {
+			vec = append(vec, value)
+		}
+		matrix = append(matrix, vec)
+	}
+	m := Matrix{}
+	m.Set(matrix)
+	return &m
+}
+
+func File(src string, prefix string) *Matrix{
 	// TODO
 	return nil
 }
@@ -17,6 +42,8 @@ type Matrix struct {
 	M [][]float64
 	H int64
 	W int64
+	quadratic bool
+	maxValue float64
 }
 
 func (m *Matrix) Print() {
@@ -44,8 +71,15 @@ func (m *Matrix) Set(v [][]float64) {
 				panic("Error in matrix size")
 			}
 		}
+		for j := 0; j < len(v[i]); j++{
+			value := math.Sqrt(v[i][j]*v[i][j])
+			if value > m.maxValue {
+				m.maxValue = value
+			}
+		}
 	}
 	m.M = v
+	m.quadratic = m.H == m.W
 }
 
 func (m *Matrix) Sum(v *Matrix) *Matrix{
