@@ -59,6 +59,7 @@ func (m *Matrix) Print() {
 		fmt.Println()
 	}
 	fmt.Println((*m).H,"x",(*m).W)
+	fmt.Println()
 }
 
 func (m *Matrix) Set(v [][]float64) {
