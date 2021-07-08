@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"github.com/ncostamagna/matrix/matrix"
 )
 
@@ -26,7 +27,12 @@ func main(){
 					  []float64{0,1,9,5})
 
 	m3.Print()
+	fmt.Println("Transpose")
+	m3.T().Print()
+	fmt.Println()
 	m4.Print()
+	fmt.Println("Transpose")
+	m4.T().Print()
 
 	m3.Dot(m4).Print()
 
@@ -35,4 +41,6 @@ func main(){
 
 	cero := matrix.Null(3,6)
 	cero.Print()
+
+
 }

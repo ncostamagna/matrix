@@ -124,3 +124,22 @@ func (m *Matrix) Dot(v *Matrix) *Matrix{
 	}
 	return New(matrix...)
 }
+
+func (m *Matrix) T() *Matrix{
+
+	tMap := map[int][]float64{}
+
+	for i := 0; i< len((*m).M); i++ {
+		vec := (*m).M[i]
+		for j := 0; j < len((*m).M[i]); j++ {
+			tMap[j] = append(tMap[j], vec[j])
+		}
+	}
+
+	var msum [][]float64
+	for i := 0; i < int(m.W); i++{
+		msum = append(msum, tMap[i])
+	}
+
+	return New(msum...)
+}
