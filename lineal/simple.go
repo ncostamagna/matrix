@@ -1,5 +1,7 @@
 package lineal
 
+import "fmt"
+
 type Var struct {
 	X float64
 	Y float64
@@ -7,23 +9,23 @@ type Var struct {
 	x2 float64
 }
 
-type Lineal struct{
+type Simple struct{
 	Vars []Var
 }
 
-func New() *Lineal{
-	l := Lineal{}
+func NewSimple() *Simple{
+	l := Simple{}
 	return &l
 }
 
-func (l *Lineal) Add(v Var) *Lineal{
+func (l *Simple) Add(v Var) *Simple{
 	v.xy = v.X * v.Y
 	v.x2 = v.X * v.X
 	l.Vars = append(l.Vars, v)
 	return l
 }
 
-func (l *Lineal) Train() *Model {
+func (l *Simple) Train() *Model {
 	var nxy, nx, ny, nx2, n float64
 	for _, v := range l.Vars {
 		n++
@@ -49,4 +51,8 @@ func (m *Model) PredictY(x float64) float64{
 
 func (m *Model) PredictX(y float64) float64{
 	return (y - m.b) / m.m
+}
+
+func (m *Model) Print() {
+	fmt.Printf("b: %f\nm: %f\n", m.b, m.m)
 }

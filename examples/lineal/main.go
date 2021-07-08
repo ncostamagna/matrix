@@ -8,7 +8,7 @@ import (
 
 func main(){
 
-	l := lineal.New()
+	l := lineal.NewSimple()
 	l.Add(lineal.Var{X:1,Y:2}).
 		Add(lineal.Var{X:2,Y:3}).
 		Add(lineal.Var{X:2,Y:4}).
@@ -20,6 +20,8 @@ func main(){
 
 	model := l.Train()
 
-	fmt.Println("Y: ", model.PredictY(21))
+	fmt.Println(" Y: ", model.PredictY(21))
 	fmt.Println("X: ", model.PredictX(19.33))
+
+	model.Print()
 }
