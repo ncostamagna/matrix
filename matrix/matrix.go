@@ -102,9 +102,59 @@ func (m *Matrix) Sum(v *Matrix) *Matrix{
 	return New(msum...)
 }
 
+func (m *Matrix) Less(v *Matrix) *Matrix{
+
+	if (*m).H != (*v).H || (*m).W != (*v).W {
+		panic("Error in matrix size")
+	}
+
+	var msum [][]float64
+
+	for i := 0; i< len((*m).M); i++ {
+		vec := (*m).M[i]
+		for j := 0; j < len((*m).M[i]); j++ {
+			vec[j] = vec[j] - (*v).M[i][j]
+		}
+		msum = append(msum, vec)
+	}
+
+	return New(msum...)
+}
+
+func (m *Matrix) LessScalar(s float64) *Matrix{
+
+	var msum [][]float64
+
+	for i := 0; i< len((*m).M); i++ {
+		vec := (*m).M[i]
+		for j := 0; j < len((*m).M[i]); j++ {
+			vec[j] = vec[j] - s
+		}
+		msum = append(msum, vec)
+	}
+
+	return New(msum...)
+}
+
+func (m *Matrix) SumScalar(s float64) *Matrix{
+
+	var msum [][]float64
+
+	for i := 0; i< len((*m).M); i++ {
+		vec := (*m).M[i]
+		for j := 0; j < len((*m).M[i]); j++ {
+			vec[j] = vec[j] + s
+		}
+		msum = append(msum, vec)
+	}
+
+	return New(msum...)
+}
+
 func (m *Matrix) Dot(v *Matrix) *Matrix{
 
 	if (*m).W != (*v).H {
+		fmt.Println((*m).W, (*v).H )
 		panic("Error in matrix size")
 	}
 	var matrix [][]float64
@@ -123,6 +173,20 @@ func (m *Matrix) Dot(v *Matrix) *Matrix{
 		matrix = append(matrix, vec)
 	}
 	return New(matrix...)
+}
+
+func (m *Matrix) DotScalar(s float64) *Matrix{
+
+	var msum [][]float64
+
+	for i := 0; i< len((*m).M); i++ {
+		vec := (*m).M[i]
+		for j := 0; j < len((*m).M[i]); j++ {
+			vec[j] = vec[j] * s
+		}
+		msum = append(msum, vec)
+	}
+	return New(msum...)
 }
 
 func (m *Matrix) T() *Matrix{
